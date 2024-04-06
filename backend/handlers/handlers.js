@@ -11,6 +11,7 @@ const User = require("../models/User");
 const Comment = require("../models/Comment");
 const { BlogType, CommentType, UserType } = require("../schema/schema");
 const { hashSync, compareSync } = require("bcryptjs");
+const { startSession, startTransaction } = require("mongoose");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
@@ -96,14 +97,23 @@ const mutations = new GraphQLObjectType({
         title: { type: GraphQLNonNull(GraphQLString) },
         content: { type: GraphQLNonNull(GraphQLString) },
         date: { type: GraphQLNonNull(GraphQLString) },
+        user: { type: GraphQLNonNull(GraphQLID) },
       },
-      async resolve(parent, { title, content, date }) {
+      async resolve(parent, { title, content, date, user }) {
         let blog;
+        const existingUser = await User.findById(user);
+        if (!existingUser) return new Error("User Not Found! Exiting");
+        const session = await startSession();
         try {
+          session.startTransaction({ session });
           blog = new Blog({ title, content, date });
-          return await blog.save();
+          existingUser.blogs.push(blog);
+          await existingUser.save({ session });
+          return await blog.save({ session });
         } catch (err) {
           return new Error(err);
+        } finally {
+          await session.commitTransaction();
         }
       },
     },
@@ -141,12 +151,20 @@ const mutations = new GraphQLObjectType({
       },
       async resolve(parent, { id }) {
         let existingBlog;
+        const session = await startSession();
         try {
-          existingBlog = await Blog.findById(id);
+          session.startTransaction({ session });
+          existingBlog = await Blog.findById(id).populate("user");
+          const existingUser = existingBlog?.user;
+          if (!existingUser) return new Error("No user linked to this blog");
           if (!existingBlog) return new Error("No Blog Found");
-          return await Blog.findByIdAndRemove(id);
+          existingUser.blogs.pull(existingBlog);
+          await existingUser.save({ session });
+          return await Blog.findByIdAndRemove(id, { session });
         } catch (err) {
           return new Error(err);
+        } finally {
+          session.commitTransaction();
         }
       },
     },

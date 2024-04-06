@@ -1,4 +1,6 @@
 import Blog from "../models/Blog";
+import Comment from "../models/Comment";
+import User from "../models/User";
 
 const {
   GraphQLObjectType,
