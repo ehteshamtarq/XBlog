@@ -1,6 +1,6 @@
-import Blog from "../models/Blog";
-import Comment from "../models/Comment";
-import User from "../models/User";
+const Blog = require("../models/Blog");
+const Comment = require("../models/Comment");
+const User = require("../models/User");
 
 const {
   GraphQLObjectType,
@@ -10,7 +10,7 @@ const {
   GraphQLList,
 } = require("graphql");
 
-export const UserType = new GraphQLObjectType({
+const UserType = new GraphQLObjectType({
   name: "UserType",
   fields: () => ({
     id: { type: GraphQLNonNull(GraphQLID) },
@@ -32,13 +32,13 @@ export const UserType = new GraphQLObjectType({
   }),
 });
 
-export const BlogType = new GraphQLObjectType({
+const BlogType = new GraphQLObjectType({
   name: "BlogType",
   fields: () => ({
     id: { type: GraphQLNonNull(GraphQLID) },
     title: { type: GraphQLNonNull(GraphQLString) },
     content: { type: GraphQLNonNull(GraphQLString) },
-    data: { type: GraphQLNonNull(GraphQLString) },
+    date: { type: GraphQLNonNull(GraphQLString) },
     user: {
       type: UserType,
       async resolve(parent) {
@@ -54,7 +54,7 @@ export const BlogType = new GraphQLObjectType({
   }),
 });
 
-export const CommentType = new GraphQLObjectType({
+const CommentType = new GraphQLObjectType({
   name: "CommentType",
   fields: () => ({
     id: { type: GraphQLNonNull(GraphQLID) },
@@ -73,3 +73,9 @@ export const CommentType = new GraphQLObjectType({
     },
   }),
 });
+
+module.exports = {
+  UserType,
+  BlogType,
+  CommentType,
+};

@@ -9,8 +9,8 @@ const commentSchema = new Schema({
     type: Date,
     required: true,
   },
-  blogs: { type: Schema.type.ObjectId, ref: "Blog" },
-  user: { type: Schema.type.ObjectId, ref: "User" },
+  blogs: { type: Schema.Types.ObjectId, ref: "Blog" },
+  user: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
-export default model("Comment", commentSchema);
+module.exports =  model("Comment", commentSchema);

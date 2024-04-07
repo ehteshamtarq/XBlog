@@ -15,9 +15,9 @@ const userSchema = new Schema({
     required: true,
     minLength: 8,
   },
-  blogs:[{type:Schema.type.ObjectId, ref: "Blog"}],
-  comments:[{type:Schema.type.ObjectId, ref: "Comment"}]
+  blogs:[{type:Schema.Types.ObjectId, ref: "Blog"}],
+  comments:[{type:Schema.Types.ObjectId, ref: "Comment"}]
 
 });
 
-export default  model("User", userSchema)
+module.exports =   model("User", userSchema)

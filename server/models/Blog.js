@@ -13,8 +13,9 @@ const blogSchema = new Schema({
     type: Date,
     required: true,
   },
-  user: { type: Schema.type.ObjectId, ref: "User" },
-  comments: [{ type: Schema.type.ObjectId, ref: "Comment" }],
+  user: { type: Schema.Types.ObjectId, ref: "User" },
+  comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
 });
 
-export default model("Blog", blogSchema);
+const Blog=  model("Blog", blogSchema);
+module.exports = Blog;
