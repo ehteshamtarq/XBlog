@@ -89,7 +89,7 @@ const Signup = () => {
     try {
       const response = await axios.post(url, postData);
       console.log(response.data);
-      navigate('/verify')
+      navigate('/login')
       setButtonDisabled(false);
     } catch (err) {
       console.log(err);

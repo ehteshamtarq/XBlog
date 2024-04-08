@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import "./index.css";
 
 const client = new ApolloClient({
-  uri: "https://flyby-router-demo.herokuapp.com/",
+  uri: "http://localhost:5000/graphql",
   cache: new InMemoryCache(),
 });
 

@@ -16,13 +16,14 @@ export default function MenuAppBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, width: "100vh"}}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1, width: "100vh", height: "10px"}}>
+      <AppBar position="static" sx={{backgroundColor:"black"}}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color:"white" }}>
             XBlog
           </Typography>
-          <Button color="inherit">Login</Button>
+          
+          {!auth && <Button  sx={{color:"white"}}>Login</Button>}
           {auth && (
             <div>
               <IconButton
