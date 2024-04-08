@@ -1,1 +1,3 @@
 # XBlog
+
+I've built the backend for a Blog Application utilizing GraphQL. GraphQL serves as both a query language for APIs and a runtime for executing those queries using existing data. With GraphQL, clients can precisely request only the data they require, thus eliminating issues like over-fetching or under-fetching of data. This optimization reduces network data transfer, enhancing overall performance. In contrast to RESTful APIs, which often have multiple endpoints for various resources, GraphQL APIs streamline this process by offering a single endpoint. This simplifies API maintenance and enhances the ease of data consumption for clients.
